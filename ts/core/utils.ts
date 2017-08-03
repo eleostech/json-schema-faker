@@ -84,8 +84,15 @@ function merge(a: Object, b: Object): Object {
   for (var key in b) {
     if (typeof b[key] !== 'object' || b[key] === null) {
       a[key] = b[key];
+
+      // TODO also need to do this if a[key] is an array
     } else if (Array.isArray(b[key])) {
       a[key] = a[key] || [];
+
+      if (!Array.isArray(a[key])) {
+         a[key] = [a[key]];
+      }
+
       // fix #292 - skip duplicated values from merge object (b)
       b[key].forEach(function(value) {
         if (a[key].indexOf(value)) {
